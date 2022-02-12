@@ -1,0 +1,9 @@
+.equipment-defaults-container {
+    padding: 1rem;
+}
+
+.weapon-slots {
+    display: grid;
+    text-align: center;
+    grid-template-columns: 1fr 1fr;
+}

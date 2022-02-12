@@ -1,0 +1,47 @@
+.section-title {
+    margin-top: .5rem;
+    text-align: center;
+    font-size: 1.25rem;
+    color: #999;
+}
+
+.section-description {
+    text-align: center;
+    font-size: .75rem;
+    color: #999;
+}
+
+.section-tabs {
+    display: grid;
+    margin-top: 1rem;
+    text-align: center;
+    color: #999;
+    font-size: 1.5rem;
+}
+
+.section-tab {
+    width: 50%;
+    margin: auto;
+}
+
+.section-tab:not(.active) {
+    cursor: pointer;
+}
+
+.section-tab.active {
+    border-bottom: 1px solid #999;
+}
+
+.section-content {
+    margin-top: 1rem;
+    border: 1px solid #000;
+    border-radius: 5px;
+    height: calc(100vh - 12rem);
+    position: relative;
+}
+
+.save-btn {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+}

@@ -1,0 +1,57 @@
+.frame {
+    background: #222;
+    -webkit-app-region: drag;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    height: 1.5rem;
+}
+
+.frame-logo {
+    height: 1rem;
+    width: 1rem;
+    padding: .3rem;
+    float: left;
+}
+
+.frame-title {
+    color: white;
+    font-size: 12px;
+    margin-top: .3rem;
+    float: left;
+}
+
+.frame-title span {
+    margin-left: .5rem;
+}
+
+.frame-buttons {
+    -webkit-app-region: no-drag;
+    float: right;
+    padding: .2rem;
+}
+
+.frame-btn {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.minimize-btn {
+    background-color: #ffbd4c;
+    border: 1px solid #e09e3e;
+    margin-right: .5rem;
+}
+
+.minimize-btn:hover {
+    background-color: #f7cf3d;
+}
+
+.close-btn {
+    background-color: #ff5c5c;
+    border: 1px solid #e33e41;
+}
+
+.close-btn:hover {
+    background-color: #f22424;
+}

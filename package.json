@@ -1,0 +1,52 @@
+{
+    "name": "react-client",
+    "version": "1.0.0",
+    "description": "Client for the Cryogen Cache Editor.",
+    "main": "main.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "electron .",
+        "watch": "webpack --config webpack.common.js --watch"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/pyragon/cryo-cache-client.git"
+    },
+    "keywords": [
+        "RSPS",
+        "Cryogen",
+        "Cache"
+    ],
+    "author": "Pyragon",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/pyragon/cryo-cache-client/issues"
+    },
+    "homepage": "https://github.com/pyragon/cryo-cache-client#readme",
+    "dependencies": {
+        "@electron/remote": "^2.0.4",
+        "@react-three/fiber": "^7.0.26",
+        "electron": "^17.0.0",
+        "electron-window-state": "^5.0.3",
+        "fast-sort": "^3.1.1",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
+        "react-hooks-worker": "^1.0.3",
+        "smoothscroll-polyfill": "^0.4.4",
+        "three": "^0.137.5",
+        "underscore": "^1.13.2"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.17.0",
+        "@babel/preset-env": "^7.16.11",
+        "@babel/preset-react": "^7.16.7",
+        "babel-loader": "^8.2.3",
+        "css-loader": "^6.6.0",
+        "electron-reload": "^2.0.0-alpha.1",
+        "sass": "^1.49.7",
+        "sass-loader": "^12.4.0",
+        "style-loader": "^3.3.1",
+        "webpack": "^5.68.0",
+        "webpack-cli": "^4.9.2"
+    }
+}

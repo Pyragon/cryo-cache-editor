@@ -1,0 +1,29 @@
+.list {
+    width: 10rem;
+    border: 1px solid #000;
+    border-radius: 5px;
+    background: #222;
+    overflow-y: auto;
+}
+
+.list-item {
+    cursor: default;
+    padding: .5rem;
+    color: #999;
+}
+
+.list-item:hover,
+.list-item.active {
+    background: #444;
+}
+
+.list-item-folder-icon {
+    width: .75rem;
+    height: .75rem;
+    margin-left: .5rem;
+}
+
+.nested {
+    background: #555;
+    /* margin: 0 .5rem; */
+}
