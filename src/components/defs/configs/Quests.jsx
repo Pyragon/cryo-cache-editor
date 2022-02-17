@@ -17,6 +17,7 @@ export default function Quests() {
     useEffect(() => {
         api.file.getMany(QUEST_PATH, 'quest', (_, data) => {
             let quest = JSON.parse(data);
+            quest.template = <Quest quest={quest} />
             setQuests(quests => [ ...quests, quest ]);
         });
     }, []);

@@ -56,6 +56,23 @@ function createWindow() {
         }
     });
 
+    ipcMain.on('get-raw', async(_, data) => {
+        //get raw file data
+        let filePath = props.UNPACKED_PATH + data.path;
+        try {
+            let stats = await fs.lstat(filePath);
+            if (stats.isFile()) {
+                window.webContents.send('raw:' + data.type, await fs.readFile(filePath, 'utf-8'));
+                return;
+            }
+            let dir = (await fs.readdir(filePath, 'utf-8')).filter(file => file.endsWith('.json'));
+            let files = await Promise.all(dir.map(async(file) => await fs.readFile(path.join(filePath, file), 'utf-8')));
+            window.webContents.send('raw:' + data.type, files);
+        } catch (err) {
+            console.error(err);
+        }
+    });
+
     ipcMain.on('get-many', async(_, data) => {
         let filePath = props.UNPACKED_PATH + data.path;
         try {
@@ -67,6 +84,22 @@ function createWindow() {
             let dir = (await fs.readdir(filePath, 'utf-8')).filter(file => file.endsWith('.json'));
             let files = await Promise.all(dir.map(async(file) => require(path.join(filePath, file))));
             files.forEach(file => window.webContents.send('get-many:' + data.type, JSON.stringify(file)));
+        } catch (err) {
+            console.error(err);
+        }
+    });
+
+    ipcMain.on('get-all', async(_, data) => {
+        let filePath = props.UNPACKED_PATH + data.path;
+        try {
+            let stats = await fs.lstat(filePath);
+            if (stats.isFile()) {
+                window.webContents.send('file:' + data.type, JSON.stringify(require(filePath)));
+                return;
+            }
+            let dir = (await fs.readdir(filePath, 'utf-8')).filter(file => file.endsWith('.json'));
+            let files = await Promise.all(dir.map(async(file) => require(path.join(filePath, file))));
+            window.webContents.send('get-all:' + data.type, JSON.stringify(files));
         } catch (err) {
             console.error(err);
         }
@@ -85,6 +118,15 @@ function createWindow() {
                     }
                 });
             window.webContents.send('get-folder:' + data.type, JSON.stringify(dir));
+
+        } catch (err) {
+            console.error(err);
+        }
+    });
+
+    ipcMain.on('get-image', async(_, data) => {
+        let filePath = props.UNPACKED_PATH + data.path;
+        try {
 
         } catch (err) {
             console.error(err);

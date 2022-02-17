@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import List from '../../utils/list/List';
-import InterfaceEditorContainer from './InterfaceEditorContainer';
+import Interface from './Interface';
 
 import '../../../styles/defs/Interfaces.css';
 
@@ -15,10 +15,14 @@ export default function Interfaces() {
             let interfaces = JSON.parse(data)
                 .sort((a, b) => a.id-b.id)
                 .map(inter => {
-                    inter.template = <InterfaceEditorContainer id={inter.id} />;
+                    inter.template = <Interface id={inter.id} />;
                     return inter;
                 });
             setInterfaces(interfaces);
+
+            let selected = interfaces[13];
+            setActive(selected);
+            setContents(selected.template);
         });
     }, []);
     return (
