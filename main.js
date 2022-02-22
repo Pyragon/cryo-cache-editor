@@ -62,11 +62,11 @@ function createWindow() {
         try {
             let stats = await fs.lstat(filePath);
             if (stats.isFile()) {
-                window.webContents.send('raw:' + data.type, await fs.readFile(filePath, 'utf-8'));
+                window.webContents.send('raw:' + data.type, await fs.readFile(filePath));
                 return;
             }
             let dir = (await fs.readdir(filePath, 'utf-8')).filter(file => file.endsWith('.json'));
-            let files = await Promise.all(dir.map(async(file) => await fs.readFile(path.join(filePath, file), 'utf-8')));
+            let files = await Promise.all(dir.map(async(file) => await fs.readFile(path.join(filePath, file))));
             window.webContents.send('raw:' + data.type, files);
         } catch (err) {
             console.error(err);

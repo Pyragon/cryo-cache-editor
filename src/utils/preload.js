@@ -83,6 +83,9 @@ contextBridge.exposeInMainWorld('api', {
         },
         setHeight(height) {
             remote.getCurrentWindow().setSize(remote.getCurrentWindow().getSize()[0], height);
+        },
+        minimize() {
+            remote.getCurrentWindow().minimize();
         }
     }
 });

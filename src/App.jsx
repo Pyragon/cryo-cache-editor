@@ -8,7 +8,6 @@ import './styles/utils/Helpers.css';
 
 export default function App() {
     let ref = useRef();
-    let frameRef = useRef();
 
     let [ contents, setContents ] = useState(<></>);
     let [ active, setActive ] = useState(0);
@@ -23,7 +22,7 @@ export default function App() {
     }, []);
     return (
         <div ref={ref} className='wrapper'>
-            <Frame ref={frameRef} title='Cryogen Cache Editor' />
+            <Frame title='Cryogen Cache Editor' />
             <div style={{clear: 'both'}} />
             <div className='content-wrapper'>
                 <IndexList setContents={setContents} setActive={setActive} active={active} />

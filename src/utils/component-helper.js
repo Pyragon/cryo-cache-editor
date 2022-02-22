@@ -17,6 +17,8 @@ export default class ComponentHelper {
 
     async build(canvas) {
         let component = this.component;
+        if (component.usesScripts)
+            console.log(component);
         let context = canvas.getContext('2d');
 
         let width = component.width;

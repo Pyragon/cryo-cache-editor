@@ -4,6 +4,8 @@ import ComponentList from '../../../utils/component-list';
 
 import * as THREE from 'three';
 import ThreeCanvas from './three/ThreeCanvas';
+import RSMesh from '../../../utils/models/RSMesh';
+import getHSLToRGB from '../../../utils/colour-utils';
 
 function setup2DCanvas(canvas) {
 
@@ -32,21 +34,26 @@ export default function Interface({ id }) {
 
         setup2DCanvas(canvas2D.current);
 
-        api.file.getAll(`/interfaces/${id}/components/`, 'components:'+id, async(_, data) => {
-            let files = JSON.parse(data);
-            
-            let components = await Promise.all(files.map(async file => {
-                let helper = new ComponentHelper(file);
-                helper.setValues();
-                if(file.spriteId !== -1)
-                    await helper.loadSprite();
-                return helper;
-            }));
+        async function setup() {
 
-            buildCanvas(ComponentList.getOrdered(), canvas2D.current);
-            setComponents(components);
+            api.file.getAll(`/interfaces/${id}/components/`, 'components:'+id, async(_, data) => {
+                let files = JSON.parse(data);
+                
+                let components = await Promise.all(files.map(async file => {
+                    let helper = new ComponentHelper(file);
+                    helper.setValues();
+                    if(file.spriteId !== -1)
+                        await helper.loadSprite();
+                    return helper;
+                }));
+    
+                buildCanvas(ComponentList.getOrdered(), canvas2D.current);
+                setComponents(components);
+    
+            });
+        }
 
-        });
+        setup();
 
     }, [ id ]);
 

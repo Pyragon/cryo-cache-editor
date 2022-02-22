@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 import RSMesh from '../../../../utils/models/RSMesh';
 
-async function setupModels(scene, models) {
+async function setupModels(scene, models, meshes) {
 
     if(!scene) return;
 
@@ -19,19 +20,21 @@ async function setupModels(scene, models) {
 
         cube.position.x = helper.getX() - 355;
         cube.position.y = -helper.getY() + 165;
+        meshes.push(cube);
         scene.add(cube);
-
-        //let's do this...
-        console.log({ type: component.modelType, id: component.modelId });
 
         let file = await api.file.getRaw(`/models/${component.modelId}.dat`);
         
         let mesh = new RSMesh(file);
 
-        //grab model from server
+        let threeMesh = mesh.toThreeMesh(helper.component.height);
 
-        //decode into rsmesh
-        //add mesh to scene
+        threeMesh.position.x = helper.getX() - 355;
+        // threeMesh.position.y = -helper.getY() + 165;
+        threeMesh.scale.set(0.5, 0.5, 0.5);
+        meshes.push(threeMesh);
+
+        scene.add(threeMesh);
     }
 
 }
@@ -41,6 +44,8 @@ export default React.forwardRef(({ style, width, height, components }, ref) => {
     let sceneRef = useRef();
     let cameraRef = useRef();
     let rendererRef = useRef();
+    let meshRefs = useRef([]);
+    let controlsRef = useRef();
 
     let requestRef = useRef();
 
@@ -50,15 +55,20 @@ export default React.forwardRef(({ style, width, height, components }, ref) => {
         let renderer = rendererRef.current;
         let scene = sceneRef.current;
         let camera = cameraRef.current;
+        let meshes = meshRefs.current;
+        let controls = controlsRef.current;
 
-        if(renderer === null || scene === null || camera === null) return;
+        if(renderer === null || scene === null || camera === null || meshes === null || controls === null) return;
 
+        // for(let mesh of meshes)
+        //     mesh.rotation.y += 0.01;
+        controls.update();
         renderer.render(scene, camera);
     };
 
     useEffect(() => {
         let models = components.filter(helper => helper.component.type === 'MODEL');
-        setupModels(sceneRef.current, models);
+        setupModels(sceneRef.current, models, meshRefs.current);
     }, [ components ]);
 
     useEffect(() => {
@@ -72,20 +82,31 @@ export default React.forwardRef(({ style, width, height, components }, ref) => {
         canvas.height = rect.height * dpr;
 
         let scene = new THREE.Scene();
-        let camera = new THREE.OrthographicCamera(width / -2, width / 2, height / 2, height / -2, 1, 1000);
+        // let camera = new THREE.OrthographicCamera(width / -2, width / 2, height / 2, height / -2, 1, 1000);
+        let camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
 
         let renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
         renderer.setSize(width, height);
         renderer.setPixelRatio(dpr);
 
-        camera.position.z = 10;
+        camera.position.z = 270;
 
         camera.aspect = width / height;
         camera.updateProjectionMatrix();
 
+        //add large point light
+        let light = new THREE.PointLight(0xffffff, 100, 0);
+        light.position.set(50, 50, 50);
+        scene.add(light);
+
+        //add orbit controls
+        let controls = new OrbitControls(camera, renderer.domElement);
+        controls.update();
+
         sceneRef.current = scene;
         cameraRef.current = camera;
         rendererRef.current = renderer;
+        controlsRef.current = controls;
 
         requestRef.current = requestAnimationFrame(animate);
 
